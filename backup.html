@@ -122,25 +122,15 @@
 
     .hidden { display: none; }
 
-
-    .omr-box { margin-top: 24px; background: #f3f9ff; padding: 18px; border-radius: 12px; margin-bottom: 24px; }
-    .omr-controls { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 10px; margin-top: 12px; align-items: end; }
-    .omr-controls label { display: block; font-size: 13px; color: #555; margin-bottom: 6px; }
-    .omr-controls input, .omr-controls select { width: 100%; margin-bottom: 0; }
-    .omr-preview-wrap { margin-top: 14px; overflow: auto; border: 1px solid #d8e3f0; border-radius: 10px; background: white; padding: 10px; }
-    #omrCanvas { max-width: 100%; display: none; }
-    .omr-status { margin-top: 12px; line-height: 1.6; }
-
     @media (max-width: 700px) {
       .container { margin: 16px; padding: 16px; }
       input.answer-input { width: 70px; }
       th, td { padding: 8px; font-size: 14px; }
       .grid { grid-template-columns: 1fr; }
       .answer-grid { grid-template-columns: repeat(2, 1fr); }
-      .omr-controls { grid-template-columns: 1fr; }
     }
   </style>
-<script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778331733717&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000f29872099e065e19c718bb0c%26ts%3D493981%26p%3Dfs%26cid%3D1%26sig%3D4d6ba38cbcb2ff31223236ae6706c101100a754a694c9aeaf1ae5738ebd7fc53%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1&amp;stealth=1&amp;st-loc"></script><script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778331733717&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778326259473&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_0000000076347206821612dae21c623a%26ts%3D493979%26p%3Dfs%26cid%3D1%26sig%3De7548bc6532e5be425a2119f0a328a12892f4ca59532ed0a0aeb8bc7f0bf1614%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1&amp;stealth=1&amp;st-loc"></script><script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778326259473&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script></head>
+<script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778331733717&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_0000000074f47206b160275e8a306575%26ts%3D493981%26p%3Dfs%26cid%3D1%26sig%3D78b30ffd8b01abb7427eeaf8fb9a9f76986dfebe103d2d1316959e3b9dbdb290%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1&amp;stealth=1&amp;st-loc"></script><script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778331733717&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script></head>
 <body>
   <main class="container">
     <h1>시험 답안 채점기</h1>
@@ -158,39 +148,6 @@
         <strong>만점:</strong> 100점
       </div>
     </section>
-
-    <section class="omr-box">
-      <h2>OMR 사진 자동 입력</h2>
-      <p class="small-text">답안 영역만 최대한 반듯하게 찍거나 잘라서 올리면 30문항 답안을 자동으로 채웁니다. 자동 입력 후에도 아래 표에서 직접 수정할 수 있습니다.</p>
-      <div class="omr-controls">
-        <div>
-          <label for="omrImageInput"><strong>OMR 사진 선택</strong></label>
-          <input id="omrImageInput" type="file" accept="image/*" />
-        </div>
-        <div>
-          <label for="omrChoiceCount">선택지 수</label>
-          <select id="omrChoiceCount">
-            <option value="5" selected>5지선다</option>
-            <option value="4">4지선다</option>
-          </select>
-        </div>
-        <div>
-          <label for="omrConfidence">인식 민감도</label>
-          <select id="omrConfidence">
-            <option value="0.08">낮음</option>
-            <option value="0.12" selected>보통</option>
-            <option value="0.18">높음</option>
-          </select>
-        </div>
-      </div>
-      <button id="readOmrButton" class="secondary-button" disabled>사진에서 답안 읽기</button>
-      <button id="clearAnswersButton" class="secondary-button">답안 칸 비우기</button>
-      <div id="omrStatus" class="omr-status small-text">사진을 선택하면 인식 버튼이 활성화됩니다.</div>
-      <div class="omr-preview-wrap">
-        <canvas id="omrCanvas"></canvas>
-      </div>
-    </section>
-
 
     <table>
       <thead>
@@ -330,15 +287,6 @@
     const myResults = document.getElementById("myResults");
     const statsArea = document.getElementById("statsArea");
     const questionStatsArea = document.getElementById("questionStatsArea");
-
-    const omrImageInput = document.getElementById("omrImageInput");
-    const readOmrButton = document.getElementById("readOmrButton");
-    const clearAnswersButton = document.getElementById("clearAnswersButton");
-    const omrStatus = document.getElementById("omrStatus");
-    const omrCanvas = document.getElementById("omrCanvas");
-    const omrChoiceCount = document.getElementById("omrChoiceCount");
-    const omrConfidence = document.getElementById("omrConfidence");
-    let omrImageReady = false;
 
     function initializeFirebaseIfConfigured() {
       const hasConfig = !firebaseConfig.apiKey.includes("여기에") && !ADMIN_UID.includes("여기에");
@@ -881,156 +829,7 @@
       }
     }
 
-
-
-    function loadOmrImage(file) {
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        const image = new Image();
-        image.onload = () => {
-          const maxWidth = 1200;
-          const scale = Math.min(1, maxWidth / image.width);
-          omrCanvas.width = Math.round(image.width * scale);
-          omrCanvas.height = Math.round(image.height * scale);
-          const ctx = omrCanvas.getContext("2d");
-          ctx.drawImage(image, 0, 0, omrCanvas.width, omrCanvas.height);
-          omrCanvas.style.display = "block";
-          omrImageReady = true;
-          readOmrButton.disabled = false;
-          omrStatus.innerHTML = "사진이 준비되었습니다. 답안 영역이 30행 x 선택지 개수 형태로 보이게 찍혀 있을수록 정확합니다.";
-        };
-        image.onerror = () => {
-          omrImageReady = false;
-          readOmrButton.disabled = true;
-          omrStatus.innerHTML = '<span class="wrong">이미지를 불러오지 못했습니다.</span>';
-        };
-        image.src = reader.result;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function getOtsuThreshold(grayValues) {
-      const histogram = new Array(256).fill(0);
-      grayValues.forEach((value) => { histogram[value] += 1; });
-
-      const total = grayValues.length;
-      let sum = 0;
-      for (let i = 0; i < 256; i += 1) sum += i * histogram[i];
-
-      let sumB = 0;
-      let weightB = 0;
-      let maxVariance = 0;
-      let threshold = 140;
-
-      for (let i = 0; i < 256; i += 1) {
-        weightB += histogram[i];
-        if (weightB === 0) continue;
-        const weightF = total - weightB;
-        if (weightF === 0) break;
-
-        sumB += i * histogram[i];
-        const meanB = sumB / weightB;
-        const meanF = (sum - sumB) / weightF;
-        const betweenVariance = weightB * weightF * (meanB - meanF) * (meanB - meanF);
-
-        if (betweenVariance > maxVariance) {
-          maxVariance = betweenVariance;
-          threshold = i;
-        }
-      }
-
-      return Math.max(80, Math.min(180, threshold));
-    }
-
-    function readOmrAnswers() {
-      if (!omrImageReady) {
-        alert("먼저 OMR 사진을 선택하세요.");
-        return;
-      }
-
-      const ctx = omrCanvas.getContext("2d");
-      const width = omrCanvas.width;
-      const height = omrCanvas.height;
-      const imageData = ctx.getImageData(0, 0, width, height);
-      const data = imageData.data;
-      const gray = new Uint8Array(width * height);
-
-      for (let i = 0, p = 0; i < data.length; i += 4, p += 1) {
-        gray[p] = Math.round(0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]);
-      }
-
-      const threshold = getOtsuThreshold(Array.from(gray));
-      const choices = Number(omrChoiceCount.value);
-      const minGap = Number(omrConfidence.value);
-      const marginX = width * 0.08;
-      const marginY = height * 0.03;
-      const usableWidth = width - marginX * 2;
-      const usableHeight = height - marginY * 2;
-      const cellWidth = usableWidth / choices;
-      const cellHeight = usableHeight / QUESTION_COUNT;
-      const radiusX = cellWidth * 0.28;
-      const radiusY = cellHeight * 0.32;
-      const recognized = [];
-      const uncertain = [];
-
-      for (let q = 1; q <= QUESTION_COUNT; q += 1) {
-        const scores = [];
-
-        for (let c = 1; c <= choices; c += 1) {
-          const cx = marginX + (c - 0.5) * cellWidth;
-          const cy = marginY + (q - 0.5) * cellHeight;
-          let dark = 0;
-          let total = 0;
-
-          const startX = Math.max(0, Math.floor(cx - radiusX));
-          const endX = Math.min(width - 1, Math.ceil(cx + radiusX));
-          const startY = Math.max(0, Math.floor(cy - radiusY));
-          const endY = Math.min(height - 1, Math.ceil(cy + radiusY));
-
-          for (let y = startY; y <= endY; y += 1) {
-            for (let x = startX; x <= endX; x += 1) {
-              const dx = (x - cx) / radiusX;
-              const dy = (y - cy) / radiusY;
-              if ((dx * dx + dy * dy) <= 1) {
-                total += 1;
-                if (gray[y * width + x] < threshold) dark += 1;
-              }
-            }
-          }
-
-          scores.push({ choice: c, ratio: total ? dark / total : 0 });
-        }
-
-        scores.sort((a, b) => b.ratio - a.ratio);
-        const best = scores[0];
-        const second = scores[1] || { ratio: 0 };
-        const input = document.getElementById(`answer-${q}`);
-
-        if (best.ratio >= 0.10 && (best.ratio - second.ratio) >= minGap) {
-          input.value = String(best.choice);
-          recognized.push(q);
-        } else {
-          uncertain.push(q);
-        }
-      }
-
-      omrStatus.innerHTML = `자동 입력 완료: ${recognized.length}개 문항 인식. ${uncertain.length ? `확인이 필요한 문항: ${uncertain.join(", ")}번` : "확인이 필요한 문항 없음."}<br />자동 입력된 값은 아래 답안 표에서 그대로 수정할 수 있습니다.`;
-    }
-
-    function clearAnswerInputs() {
-      for (let i = 1; i <= QUESTION_COUNT; i += 1) {
-        const input = document.getElementById(`answer-${i}`);
-        if (input) input.value = "";
-      }
-      omrStatus.innerHTML = "답안 칸을 비웠습니다. 수동 입력하거나 사진을 다시 인식할 수 있습니다.";
-    }
-
     document.getElementById("gradeButton").addEventListener("click", gradeExam);
-    omrImageInput.addEventListener("change", (event) => loadOmrImage(event.target.files[0]));
-    readOmrButton.addEventListener("click", readOmrAnswers);
-    clearAnswersButton.addEventListener("click", clearAnswerInputs);
     document.getElementById("loginButton").addEventListener("click", loginAdmin);
     document.getElementById("saveExamButton").addEventListener("click", saveExam);
     document.getElementById("loadExamsButton").addEventListener("click", loadExamsForAdmin);
