@@ -15,15 +15,15 @@ Firebase 기반 웹 시험 채점기입니다. 관리자가 시험(30문항)과 
 
 ## 프로젝트 구조
 
-- `/home/runner/work/exam_grader/exam_grader/index.html`: 메인 버전 (OMR 자동 입력 포함)
-- `/home/runner/work/exam_grader/exam_grader/backup.html`: 백업 버전 (OMR 기능 없음)
+- `index.html`: 메인 버전 (OMR 자동 입력 포함)
+- `backup.html`: 백업 버전 (OMR 기능 없음)
 
 ## 실행 방법
 
 별도 빌드 과정 없이 정적 HTML로 동작합니다.
 
 1. 저장소를 클론합니다.
-2. `/home/runner/work/exam_grader/exam_grader/index.html` 파일을 브라우저에서 엽니다.
+2. `index.html` 파일을 브라우저에서 엽니다.
 
 > Firebase 설정이 유효하지 않으면 채점 결과 온라인 저장/조회 기능은 비활성화됩니다.
 
