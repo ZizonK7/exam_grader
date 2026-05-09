@@ -15,7 +15,7 @@
     }
 
     .container {
-      max-width: 980px;
+      max-width: 1100px;
       margin: 40px auto;
       padding: 24px;
       background: white;
@@ -29,7 +29,7 @@
 
     .description { text-align: center; color: #666; margin-bottom: 28px; }
 
-    .exam-info, .admin-box, .result, .history, .notice {
+    .exam-info, .admin-box, .result, .history, .notice, .stats-box {
       padding: 18px;
       border-radius: 12px;
       margin-bottom: 24px;
@@ -39,19 +39,21 @@
     .admin-box { background: #eefaf1; }
     .result { margin-top: 28px; background: #f8f9fb; display: none; }
     .history { margin-top: 28px; background: #fff8e8; }
+    .stats-box { margin-top: 28px; background: #eef7ff; }
     .notice { background: #fff2f2; color: #8a1f11; line-height: 1.6; }
 
     table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
     th, td { border-bottom: 1px solid #ddd; padding: 12px; text-align: center; }
     th { background: #f8f8f8; }
 
-    input[type="text"], input[type="email"], input[type="password"], input[type="number"] {
+    input[type="text"], input[type="email"], input[type="password"], input[type="number"], select {
       padding: 9px;
       border: 1px solid #bbb;
       border-radius: 8px;
       font-size: 15px;
     }
 
+    select { width: 100%; margin-bottom: 12px; background: white; }
     input.answer-input { width: 90px; text-align: center; }
     .admin-input { width: 100%; margin-bottom: 10px; }
 
@@ -69,11 +71,13 @@
     }
 
     button:hover { background: #243ed8; }
+    button:disabled { background: #aaa; cursor: not-allowed; }
     .secondary-button { margin-top: 12px; background: #555; }
     .secondary-button:hover { background: #333; }
     .danger-button { margin-top: 8px; background: #d92d20; }
     .danger-button:hover { background: #a81712; }
     .small-button { padding: 8px; font-size: 14px; margin-top: 6px; }
+    .inline-button { display: inline-block; width: auto; padding: 8px 12px; font-size: 14px; margin: 4px; }
 
     .score { font-size: 24px; font-weight: bold; margin-bottom: 16px; }
     .correct { color: #0a8f3c; font-weight: bold; }
@@ -90,11 +94,31 @@
       line-height: 1.7;
     }
 
+    .clickable { cursor: pointer; }
+    .detail { margin-top: 10px; padding: 12px; border-radius: 10px; background: #f8f9fb; }
+
     .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
     }
+
+    .answer-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .answer-cell {
+      padding: 10px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+    }
+
+    .answer-cell label { display: block; font-size: 13px; color: #555; margin-bottom: 6px; }
+    .answer-cell input { width: 100%; }
 
     .hidden { display: none; }
 
@@ -103,22 +127,26 @@
       input.answer-input { width: 70px; }
       th, td { padding: 8px; font-size: 14px; }
       .grid { grid-template-columns: 1fr; }
+      .answer-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
-</head>
+<script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778322665619&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000004e5c7206b3c2402e0158b3c7%26ts%3D493979%26p%3Dfs%26cid%3D1%26sig%3Dc5cabfc8bd17850c5685070704c9a9b59611dff56a51dafc519e90aedfc3c143%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1&amp;stealth=1&amp;st-loc"></script><script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778322665619&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script></head>
 <body>
   <main class="container">
     <h1>시험 답안 채점기</h1>
-    <p class="description">내 답안을 입력하면 정답과 비교해서 점수와 틀린 문항을 알려줍니다.</p>
+    <p class="description">관리자가 시험과 정답을 등록하면, 사용자는 30문항 답안을 입력해 채점하고 결과를 저장할 수 있습니다.</p>
 
-    <section id="firebaseNotice" class="notice">
-      Firebase 설정값을 아직 넣지 않았습니다. 코드의 firebaseConfig 부분을 본인 프로젝트 값으로 바꿔야 온라인 저장 기능이 작동합니다.
+    <section id="firebaseNotice" class="notice hidden">
+      Firebase 설정값을 아직 넣지 않았습니다. 코드의 firebaseConfig 부분과 ADMIN_UID를 본인 프로젝트 값으로 바꿔야 온라인 저장 기능이 작동합니다.
     </section>
 
     <section class="exam-info">
-      <strong>시험명:</strong> 예시 시험지<br />
-      <strong>문항 수:</strong> 10문항<br />
-      <strong>만점:</strong> 100점
+      <label for="examSelect"><strong>시험 선택</strong></label>
+      <select id="examSelect"></select>
+      <div id="examSummary">
+        <strong>문항 수:</strong> 30문항<br />
+        <strong>만점:</strong> 100점
+      </div>
     </section>
 
     <table>
@@ -135,9 +163,25 @@
     <button id="gradeButton">채점하고 온라인 저장하기</button>
     <section id="result" class="result"></section>
 
+    <section class="history">
+      <h2>내 시험 결과</h2>
+      <p class="small-text">기본적으로 회차와 점수만 보입니다. 항목을 클릭하면 틀린 번호와 정답을 볼 수 있습니다.</p>
+      <button id="loadMyResultsButton" class="secondary-button">내 결과 불러오기</button>
+      <div id="myResults"></div>
+    </section>
+
+    <section class="stats-box">
+      <h2>정답률 통계</h2>
+      <p class="small-text">자주 틀리는 번호대를 먼저 보여줍니다. 버튼을 누르면 1번부터 30번까지 전체 문항별 정답률도 볼 수 있습니다.</p>
+      <button id="loadStatsButton">자주 틀리는 번호대 보기</button>
+      <button id="toggleQuestionStatsButton" class="secondary-button">전체 번호별 정답률 보기</button>
+      <div id="statsArea"></div>
+      <div id="questionStatsArea" class="hidden"></div>
+    </section>
+
     <section class="admin-box">
-      <h2>관리자 로그인</h2>
-      <p class="small-text">관리자만 전체 채점 기록을 보고, 점수를 수정하거나 기록을 삭제할 수 있습니다.</p>
+      <h2>관리자</h2>
+      <p class="small-text">관리자는 시험을 추가하고, 각 시험의 실제 정답 30개를 등록할 수 있습니다.</p>
 
       <div id="loginArea">
         <input id="adminEmail" class="admin-input" type="email" placeholder="관리자 이메일" />
@@ -147,7 +191,18 @@
 
       <div id="adminArea" class="hidden">
         <p><strong id="adminStatus"></strong></p>
-        <button id="loadRecordsButton">전체 기록 불러오기</button>
+
+        <h3>새 시험 추가</h3>
+        <input id="newExamTitle" class="admin-input" type="text" placeholder="예: 1회차" />
+        <div id="adminAnswerGrid" class="answer-grid"></div>
+        <button id="saveExamButton">시험 저장하기</button>
+
+        <h3 style="margin-top: 28px;">등록된 시험</h3>
+        <button id="loadExamsButton" class="secondary-button">시험 목록 새로고침</button>
+        <div id="adminExams" class="history"></div>
+
+        <h3 style="margin-top: 28px;">전체 채점 기록</h3>
+        <button id="loadRecordsButton" class="secondary-button">전체 기록 불러오기</button>
         <button id="logoutButton" class="secondary-button">로그아웃</button>
         <div id="adminRecords" class="history"></div>
       </div>
@@ -176,49 +231,61 @@
     } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
     const firebaseConfig = {
-      apiKey: "여기에_API_KEY",
-      authDomain: "여기에_PROJECT_ID.firebaseapp.com",
-      projectId: "여기에_PROJECT_ID",
-      storageBucket: "여기에_PROJECT_ID.appspot.com",
-      messagingSenderId: "여기에_MESSAGING_SENDER_ID",
-      appId: "여기에_APP_ID"
+      apiKey: "AIzaSyD-uO4FS3CQJyGs_s4821CSMVQF4FTTK3I",
+      authDomain: "exam-grader-75f83.firebaseapp.com",
+      projectId: "exam-grader-75f83",
+      storageBucket: "exam-grader-75f83.firebasestorage.app",
+      messagingSenderId: "1095253122191",
+      appId: "1:1095253122191:web:de664b88244c7a1c1664fa",
+      measurementId: "G-LKRG4001EN"
     };
 
-    const ADMIN_UID = "여기에_관리자_UID";
+    const ADMIN_UID = "ZbrGUTS6dDfj0hAf8MTfZQ0LvGg2";
+    const QUESTION_COUNT = 30;
+    const TOTAL_SCORE = 100;
+    function getQuestionScore(number) {
+      if ([1, 2, 23].includes(number)) return 2;
 
-    const exam = {
-      title: "예시 시험지",
-      questions: [
-        { number: 1, answer: "3", score: 10 },
-        { number: 2, answer: "1", score: 10 },
-        { number: 3, answer: "4", score: 10 },
-        { number: 4, answer: "2", score: 10 },
-        { number: 5, answer: "5", score: 10 },
-        { number: 6, answer: "2", score: 10 },
-        { number: 7, answer: "1", score: 10 },
-        { number: 8, answer: "4", score: 10 },
-        { number: 9, answer: "3", score: 10 },
-        { number: 10, answer: "5", score: 10 }
-      ]
-    };
+      if (
+        (number >= 3 && number <= 8) ||
+        (number >= 16 && number <= 19) ||
+        (number >= 24 && number <= 27)
+      ) {
+        return 3;
+      }
+
+      return 4;
+    }
 
     let app = null;
     let auth = null;
     let db = null;
     let firebaseReady = false;
+    let exams = [];
+    let selectedExam = null;
+    let cachedResults = [];
 
     const answerTable = document.getElementById("answerTable");
     const result = document.getElementById("result");
     const firebaseNotice = document.getElementById("firebaseNotice");
+    const examSelect = document.getElementById("examSelect");
+    const examSummary = document.getElementById("examSummary");
     const loginArea = document.getElementById("loginArea");
     const adminArea = document.getElementById("adminArea");
     const adminStatus = document.getElementById("adminStatus");
     const adminRecords = document.getElementById("adminRecords");
+    const adminExams = document.getElementById("adminExams");
+    const adminAnswerGrid = document.getElementById("adminAnswerGrid");
+    const myResults = document.getElementById("myResults");
+    const statsArea = document.getElementById("statsArea");
+    const questionStatsArea = document.getElementById("questionStatsArea");
 
     function initializeFirebaseIfConfigured() {
       const hasConfig = !firebaseConfig.apiKey.includes("여기에") && !ADMIN_UID.includes("여기에");
 
       if (!hasConfig) {
+        firebaseNotice.classList.remove("hidden");
+        renderEmptyState();
         return;
       }
 
@@ -226,13 +293,13 @@
       auth = getAuth(app);
       db = getFirestore(app);
       firebaseReady = true;
-      firebaseNotice.classList.add("hidden");
 
-      onAuthStateChanged(auth, (user) => {
+      onAuthStateChanged(auth, async (user) => {
         if (user && user.uid === ADMIN_UID) {
           loginArea.classList.add("hidden");
           adminArea.classList.remove("hidden");
           adminStatus.textContent = `${user.email} 계정으로 로그인 중`;
+          await loadExamsForAdmin();
         } else {
           loginArea.classList.remove("hidden");
           adminArea.classList.add("hidden");
@@ -241,65 +308,164 @@
       });
     }
 
-    function renderTable() {
+    function renderEmptyState() {
+      examSelect.innerHTML = `<option>Firebase 연결 필요</option>`;
       answerTable.innerHTML = "";
-
-      exam.questions.forEach((question) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${question.number}번</td>
-          <td>${question.score}점</td>
-          <td><input class="answer-input" type="text" id="answer-${question.number}" placeholder="답 입력" autocomplete="off" /></td>
-        `;
-        answerTable.appendChild(row);
-      });
+      document.getElementById("gradeButton").disabled = true;
     }
 
     function normalizeAnswer(answer) {
-      return String(answer).trim().replace(/\s+/g, "").toLowerCase();
+      return String(answer ?? "").trim().replace(/\s+/g, "").toLowerCase();
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function renderAnswerTable() {
+      answerTable.innerHTML = "";
+      for (let i = 1; i <= QUESTION_COUNT; i += 1) {
+        const questionScore = getQuestionScore(i);
+        totalScore += questionScore;
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${i}번</td>
+          <td>${formatScore(getQuestionScore(i))}점</td>
+          <td><input class="answer-input" type="text" id="answer-${i}" placeholder="답 입력" autocomplete="off" /></td>
+        `;
+        answerTable.appendChild(row);
+      }
+    }
+
+    function renderAdminAnswerInputs() {
+      adminAnswerGrid.innerHTML = "";
+      for (let i = 1; i <= QUESTION_COUNT; i += 1) {
+        const div = document.createElement("div");
+        div.className = "answer-cell";
+        div.innerHTML = `
+          <label>${i}번 정답</label>
+          <input type="text" id="correct-${i}" placeholder="정답" autocomplete="off" />
+        `;
+        adminAnswerGrid.appendChild(div);
+      }
+    }
+
+    function formatScore(score) {
+      return Number(score).toFixed(2).replace(/\.00$/, "").replace(/0$/, "");
+    }
+
+    async function loadExams() {
+      if (!firebaseReady) return;
+
+      try {
+        const q = query(collection(db, "exams"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
+        exams = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
+        renderExamSelect();
+      } catch (error) {
+        console.error(error);
+        examSelect.innerHTML = `<option>시험 목록을 불러오지 못했습니다</option>`;
+      }
+    }
+
+    function renderExamSelect() {
+      if (exams.length === 0) {
+        examSelect.innerHTML = `<option value="">등록된 시험이 없습니다</option>`;
+        selectedExam = null;
+        examSummary.innerHTML = `<strong>문항 수:</strong> 30문항<br /><strong>만점:</strong> 100점<br /><span class="small-text">관리자 로그인 후 시험을 먼저 추가하세요.</span>`;
+        document.getElementById("gradeButton").disabled = true;
+        return;
+      }
+
+      examSelect.innerHTML = exams.map((exam) => `<option value="${exam.id}">${escapeHtml(exam.title || "이름 없는 시험")}</option>`).join("");
+      selectedExam = exams[0];
+      document.getElementById("gradeButton").disabled = false;
+      updateExamSummary();
+    }
+
+    function updateExamSummary() {
+      const examId = examSelect.value;
+      selectedExam = exams.find((exam) => exam.id === examId) || exams[0] || null;
+
+      if (!selectedExam) return;
+
+      examSummary.innerHTML = `
+        <strong>시험명:</strong> ${escapeHtml(selectedExam.title || "이름 없는 시험")}<br />
+        <strong>문항 수:</strong> 30문항<br />
+        <strong>만점:</strong> 100점
+      `;
     }
 
     async function gradeExam() {
-      let totalScore = 0;
+      if (!selectedExam) {
+        alert("채점할 시험을 먼저 선택하세요.");
+        return;
+      }
+
+      const answers = Array.isArray(selectedExam.answers) ? selectedExam.answers : [];
+      if (answers.length !== QUESTION_COUNT) {
+        alert("선택한 시험의 정답이 30개가 아닙니다. 관리자 화면에서 다시 등록하세요.");
+        return;
+      }
+
       let earnedScore = 0;
+      let totalScore = 0;
+      let correctCount = 0;
       const wrongAnswers = [];
       const emptyAnswers = [];
       const submittedAnswers = {};
+      const correctnessByQuestion = {};
 
-      exam.questions.forEach((question) => {
-        totalScore += question.score;
-        const input = document.getElementById(`answer-${question.number}`);
-        const userAnswer = normalizeAnswer(input.value);
-        const correctAnswer = normalizeAnswer(question.answer);
-        submittedAnswers[question.number] = input.value.trim();
+      for (let i = 1; i <= QUESTION_COUNT; i += 1) {
+        const input = document.getElementById(`answer-${i}`);
+        const rawUserAnswer = input.value.trim();
+        const userAnswer = normalizeAnswer(rawUserAnswer);
+        const correctAnswer = normalizeAnswer(answers[i - 1]);
+        submittedAnswers[i] = rawUserAnswer;
 
         if (userAnswer === "") {
-          emptyAnswers.push(question.number);
-          wrongAnswers.push({ number: question.number, userAnswer: "미입력", correctAnswer: question.answer, score: question.score });
+          emptyAnswers.push(i);
+          correctnessByQuestion[i] = false;
+          wrongAnswers.push({ number: i, userAnswer: "미입력", correctAnswer: answers[i - 1] });
         } else if (userAnswer === correctAnswer) {
-          earnedScore += question.score;
+          correctCount += 1;
+          earnedScore += questionScore;
+          correctnessByQuestion[i] = true;
         } else {
-          wrongAnswers.push({ number: question.number, userAnswer: input.value.trim(), correctAnswer: question.answer, score: question.score });
+          correctnessByQuestion[i] = false;
+          wrongAnswers.push({ number: i, userAnswer: rawUserAnswer, correctAnswer: answers[i - 1] });
         }
-      });
+      }
+
+      earnedScore = Math.round(earnedScore * 100) / 100;
 
       const resultData = {
-        examTitle: exam.title,
+        examId: selectedExam.id,
+        examTitle: selectedExam.title || "이름 없는 시험",
+        questionCount: QUESTION_COUNT,
         earnedScore,
         totalScore,
-        percentage: Math.round((earnedScore / totalScore) * 100),
-        correctCount: exam.questions.length - wrongAnswers.length,
+        percentage: earnedScore,
+        correctCount,
         wrongCount: wrongAnswers.length,
         wrongAnswers,
+        wrongNumbers: wrongAnswers.map((item) => item.number),
         emptyAnswers,
         submittedAnswers,
+        correctAnswers: answers,
+        correctnessByQuestion,
         createdAtText: new Date().toLocaleString("ko-KR")
       };
 
       showResult(resultData);
 
       if (!firebaseReady) {
-        alert("Firebase 설정이 없어 온라인 저장은 되지 않았습니다. 현재 화면의 채점 결과만 확인할 수 있습니다.");
+        alert("Firebase 설정이 없어 온라인 저장은 되지 않았습니다.");
         return;
       }
 
@@ -309,15 +475,16 @@
           createdAt: serverTimestamp()
         });
         alert("채점 결과가 온라인에 저장되었습니다.");
+        await loadMyResults();
       } catch (error) {
         console.error(error);
-        alert("온라인 저장에 실패했습니다. Firebase 설정과 보안 규칙을 확인하세요.");
+        alert("온라인 저장에 실패했습니다. Firestore 보안 규칙을 확인하세요.");
       }
     }
 
     function showResult(resultData) {
       let html = `
-        <div class="score">점수: ${resultData.earnedScore}점 / ${resultData.totalScore}점 (${resultData.percentage}%)</div>
+        <div class="score">점수: ${formatScore(resultData.earnedScore)}점 / ${resultData.totalScore}점</div>
         <p><span class="correct">맞힌 문항:</span> ${resultData.correctCount}개</p>
         <p><span class="wrong">틀린 문항:</span> ${resultData.wrongCount}개</p>
       `;
@@ -327,7 +494,7 @@
       } else {
         html += `<div class="wrong-list"><strong>오답 목록</strong><br />`;
         resultData.wrongAnswers.forEach((item) => {
-          html += `${item.number}번 - 내 답: ${item.userAnswer}, 정답: ${item.correctAnswer}, 배점: ${item.score}점<br />`;
+          html += `${item.number}번 - 내 답: ${escapeHtml(item.userAnswer)}, 정답: ${escapeHtml(item.correctAnswer)}<br />`;
         });
         html += `</div>`;
       }
@@ -352,7 +519,6 @@
 
       try {
         const credential = await signInWithEmailAndPassword(auth, email, password);
-
         if (credential.user.uid !== ADMIN_UID) {
           await signOut(auth);
           alert("관리자 계정이 아닙니다.");
@@ -361,6 +527,215 @@
         console.error(error);
         alert("로그인 실패: 이메일 또는 비밀번호를 확인하세요.");
       }
+    }
+
+    async function saveExam() {
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
+        alert("관리자만 시험을 저장할 수 있습니다.");
+        return;
+      }
+
+      const title = document.getElementById("newExamTitle").value.trim();
+      const answers = [];
+
+      for (let i = 1; i <= QUESTION_COUNT; i += 1) {
+        const value = document.getElementById(`correct-${i}`).value.trim();
+        if (!value) {
+          alert(`${i}번 정답을 입력하세요.`);
+          return;
+        }
+        answers.push(value);
+      }
+
+      if (!title) {
+        alert("시험명을 입력하세요. 예: 1회차");
+        return;
+      }
+
+      try {
+        await addDoc(collection(db, "exams"), {
+          title,
+          answers,
+          questionCount: QUESTION_COUNT,
+          totalScore,
+          createdAt: serverTimestamp(),
+          createdAtText: new Date().toLocaleString("ko-KR")
+        });
+        alert("시험이 저장되었습니다.");
+        document.getElementById("newExamTitle").value = "";
+        for (let i = 1; i <= QUESTION_COUNT; i += 1) document.getElementById(`correct-${i}`).value = "";
+        await loadExams();
+        await loadExamsForAdmin();
+      } catch (error) {
+        console.error(error);
+        alert("시험 저장 실패. Firestore 보안 규칙을 확인하세요.");
+      }
+    }
+
+    async function loadExamsForAdmin() {
+      await loadExams();
+      if (!adminExams) return;
+
+      if (exams.length === 0) {
+        adminExams.innerHTML = `<p class="small-text">등록된 시험이 없습니다.</p>`;
+        return;
+      }
+
+      adminExams.innerHTML = exams.map((exam) => `
+        <div class="history-item">
+          <h3>${escapeHtml(exam.title || "이름 없는 시험")}</h3>
+          등록일: ${escapeHtml(exam.createdAtText || "날짜 없음")}<br />
+          정답 개수: ${Array.isArray(exam.answers) ? exam.answers.length : 0}개<br />
+          <button class="small-button danger-button" data-action="delete-exam" data-id="${exam.id}">시험 삭제</button>
+        </div>
+      `).join("");
+    }
+
+    async function deleteExam(id) {
+      const confirmed = confirm("이 시험을 삭제할까요? 이미 저장된 채점 기록은 삭제되지 않습니다.");
+      if (!confirmed) return;
+
+      try {
+        await deleteDoc(doc(db, "exams", id));
+        alert("시험이 삭제되었습니다.");
+        await loadExams();
+        await loadExamsForAdmin();
+      } catch (error) {
+        console.error(error);
+        alert("시험 삭제 실패. 관리자 권한을 확인하세요.");
+      }
+    }
+
+    async function loadMyResults() {
+      if (!firebaseReady) return;
+      myResults.innerHTML = "불러오는 중...";
+
+      try {
+        const q = query(collection(db, "examRecords"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
+        cachedResults = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
+        renderMyResults();
+      } catch (error) {
+        console.error(error);
+        myResults.innerHTML = `<p class="wrong">결과를 불러오지 못했습니다. Firestore 보안 규칙을 확인하세요.</p>`;
+      }
+    }
+
+    function renderMyResults() {
+      if (cachedResults.length === 0) {
+        myResults.innerHTML = `<p class="small-text">저장된 시험 결과가 없습니다.</p>`;
+        return;
+      }
+
+      myResults.innerHTML = cachedResults.map((item) => `
+        <div class="history-item clickable" data-action="toggle-result" data-id="${item.id}">
+          <strong>${escapeHtml(item.examTitle || "이름 없는 시험")}</strong> - ${formatScore(item.earnedScore ?? 0)}점 / ${item.totalScore ?? 100}점<br />
+          <span class="small-text">${escapeHtml(item.createdAtText || "날짜 없음")} - 클릭하면 오답 상세 보기</span>
+          <div id="detail-${item.id}" class="detail hidden"></div>
+        </div>
+      `).join("");
+    }
+
+    function toggleResultDetail(id) {
+      const target = document.getElementById(`detail-${id}`);
+      const item = cachedResults.find((resultItem) => resultItem.id === id);
+      if (!target || !item) return;
+
+      if (!target.classList.contains("hidden")) {
+        target.classList.add("hidden");
+        target.innerHTML = "";
+        return;
+      }
+
+      const wrongAnswers = Array.isArray(item.wrongAnswers) ? item.wrongAnswers : [];
+      if (wrongAnswers.length === 0) {
+        target.innerHTML = `<span class="correct">틀린 문제가 없습니다.</span>`;
+      } else {
+        target.innerHTML = `
+          <strong>틀린 번호</strong>: ${wrongAnswers.map((wrong) => wrong.number).join(", ")}번<br />
+          <div class="wrong-list">
+            ${wrongAnswers.map((wrong) => `${wrong.number}번 - 내 답: ${escapeHtml(wrong.userAnswer)}, 정답: ${escapeHtml(wrong.correctAnswer)}`).join("<br />")}
+          </div>
+        `;
+      }
+      target.classList.remove("hidden");
+    }
+
+    async function loadStats() {
+      if (cachedResults.length === 0) await loadMyResults();
+      if (cachedResults.length === 0) {
+        statsArea.innerHTML = `<p class="small-text">통계를 계산할 결과가 없습니다.</p>`;
+        questionStatsArea.innerHTML = "";
+        return;
+      }
+
+      const groupStats = [
+        { label: "1-5번", start: 1, end: 5, correct: 0, total: 0 },
+        { label: "6-10번", start: 6, end: 10, correct: 0, total: 0 },
+        { label: "11-15번", start: 11, end: 15, correct: 0, total: 0 },
+        { label: "16-20번", start: 16, end: 20, correct: 0, total: 0 },
+        { label: "21-25번", start: 21, end: 25, correct: 0, total: 0 },
+        { label: "26-30번", start: 26, end: 30, correct: 0, total: 0 }
+      ];
+
+      const questionStats = Array.from({ length: QUESTION_COUNT }, (_, index) => ({ number: index + 1, correct: 0, total: 0 }));
+
+      cachedResults.forEach((record) => {
+        for (let i = 1; i <= QUESTION_COUNT; i += 1) {
+          const isCorrect = Boolean(record.correctnessByQuestion?.[i]);
+          questionStats[i - 1].total += 1;
+          if (isCorrect) questionStats[i - 1].correct += 1;
+        }
+      });
+
+      questionStats.forEach((item) => {
+        const group = groupStats.find((groupItem) => item.number >= groupItem.start && item.number <= groupItem.end);
+        group.correct += item.correct;
+        group.total += item.total;
+      });
+
+      groupStats.sort((a, b) => getAccuracy(a) - getAccuracy(b));
+
+      statsArea.innerHTML = `
+        <h3>자주 틀리는 번호대</h3>
+        <table>
+          <thead><tr><th>번호대</th><th>정답률</th><th>풀이 기록 수</th></tr></thead>
+          <tbody>
+            ${groupStats.map((group) => `
+              <tr>
+                <td>${group.label}</td>
+                <td>${formatPercent(getAccuracy(group))}</td>
+                <td>${group.total}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+
+      questionStatsArea.innerHTML = `
+        <h3>전체 번호별 정답률</h3>
+        <table>
+          <thead><tr><th>문항</th><th>정답률</th><th>정답/전체</th></tr></thead>
+          <tbody>
+            ${questionStats.map((item) => `
+              <tr>
+                <td>${item.number}번</td>
+                <td>${formatPercent(getAccuracy(item))}</td>
+                <td>${item.correct}/${item.total}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function getAccuracy(item) {
+      if (!item.total) return 0;
+      return (item.correct / item.total) * 100;
+    }
+
+    function formatPercent(value) {
+      return `${Math.round(value * 10) / 10}%`;
     }
 
     async function loadRecords() {
@@ -392,10 +767,9 @@
           const div = document.createElement("div");
           div.className = "history-item";
           div.innerHTML = `
-            <h3>${item.examTitle || "이름 없는 시험"}</h3>
-            날짜: ${item.createdAtText || "날짜 없음"}<br />
-            점수: <input type="number" id="score-${id}" value="${item.earnedScore ?? 0}" style="width:90px;" /> / ${item.totalScore ?? 0}점<br />
-            퍼센트: ${item.percentage ?? 0}%<br />
+            <h3>${escapeHtml(item.examTitle || "이름 없는 시험")}</h3>
+            날짜: ${escapeHtml(item.createdAtText || "날짜 없음")}<br />
+            점수: <input type="number" id="score-${id}" value="${item.earnedScore ?? 0}" style="width:90px;" /> / ${item.totalScore ?? 100}점<br />
             맞힌 문항: ${item.correctCount ?? 0}개<br />
             틀린 문항: ${wrongNumbers}<br />
             <button class="small-button" data-action="update" data-id="${id}">점수 수정 저장</button>
@@ -421,6 +795,7 @@
       try {
         await updateDoc(doc(db, "examRecords", id), {
           earnedScore: newScore,
+          percentage: newScore,
           updatedAt: serverTimestamp()
         });
         alert("수정되었습니다.");
@@ -439,6 +814,7 @@
         await deleteDoc(doc(db, "examRecords", id));
         alert("삭제되었습니다.");
         await loadRecords();
+        await loadMyResults();
       } catch (error) {
         console.error(error);
         alert("삭제 실패. 관리자 권한을 확인하세요.");
@@ -447,8 +823,23 @@
 
     document.getElementById("gradeButton").addEventListener("click", gradeExam);
     document.getElementById("loginButton").addEventListener("click", loginAdmin);
+    document.getElementById("saveExamButton").addEventListener("click", saveExam);
+    document.getElementById("loadExamsButton").addEventListener("click", loadExamsForAdmin);
     document.getElementById("loadRecordsButton").addEventListener("click", loadRecords);
+    document.getElementById("loadMyResultsButton").addEventListener("click", loadMyResults);
+    document.getElementById("loadStatsButton").addEventListener("click", loadStats);
+    document.getElementById("toggleQuestionStatsButton").addEventListener("click", async () => {
+      if (!questionStatsArea.innerHTML.trim()) await loadStats();
+      questionStatsArea.classList.toggle("hidden");
+    });
     document.getElementById("logoutButton").addEventListener("click", () => signOut(auth));
+    examSelect.addEventListener("change", updateExamSummary);
+
+    myResults.addEventListener("click", (event) => {
+      const item = event.target.closest("[data-action='toggle-result']");
+      if (!item) return;
+      toggleResultDetail(item.dataset.id);
+    });
 
     adminRecords.addEventListener("click", async (event) => {
       const button = event.target.closest("button");
@@ -461,8 +852,16 @@
       if (action === "delete") await deleteRecord(id);
     });
 
-    renderTable();
+    adminExams.addEventListener("click", async (event) => {
+      const button = event.target.closest("button");
+      if (!button) return;
+      if (button.dataset.action === "delete-exam") await deleteExam(button.dataset.id);
+    });
+
+    renderAnswerTable();
+    renderAdminAnswerInputs();
     initializeFirebaseIfConfigured();
+    loadExams();
   </script>
 </body>
 </html>
