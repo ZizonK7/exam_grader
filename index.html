@@ -152,6 +152,12 @@
 
     .hidden { display: none; }
 
+    body.auth-locked .container > :not(.admin-box) { display: none; }
+    body.auth-locked .admin-box { max-width: 520px; margin: 0 auto; }
+    body.auth-locked .admin-box h2 { margin-top: 0; text-align: center; }
+    body.auth-locked #userArea, body.auth-locked #adminArea { display: none; }
+    body.auth-locked .container { max-width: 600px; }
+
     .chart-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -215,11 +221,11 @@
       .chart-grid { grid-template-columns: 1fr; }
     }
   </style>
-<script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778348262344&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000005bc8720698c658661c19f578%26ts%3D493985%26p%3Dfs%26cid%3D1%26sig%3D2eb3985f7fee57698b2bf8d6b33f9ccf77f180c4505132bda9b44cc2ca226562%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1&amp;stealth=1&amp;st-loc"></script><script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778348262344&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778348262344&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000168c720694d6a4c623d80685%26ts%3D493985%26p%3Dfs%26cid%3D1%26sig%3Dbed740569f6cb24d486713d4517a9f93bca32020c47a91980f9d8bd045c716de%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1&amp;stealth=1&amp;st-loc"></script><script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778348262344&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778346461275&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000ffc47206948773e3cbfa5a9f%26ts%3D493985%26p%3Dfs%26cid%3D1%26sig%3Dcd837fc2a7ebe23e2e70594e2065896a80c7c10ef2101bc3b5d1519cdcc8688e%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1&amp;stealth=1&amp;st-loc"></script><script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778346461275&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script></head>
-<body>
+<script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778402681520&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000001ebc720687150306aca8e376%26ts%3D494001%26p%3Dfs%26cid%3D1%26sig%3D709486c5ed89d1950d75acaba3bd053e324dd5c3966de0b4862a5b449ce48f51%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1&amp;stealth=1&amp;st-loc"></script><script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778402681520&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778348262344&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000005bc8720698c658661c19f578%26ts%3D493985%26p%3Dfs%26cid%3D1%26sig%3D2eb3985f7fee57698b2bf8d6b33f9ccf77f180c4505132bda9b44cc2ca226562%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1&amp;stealth=1&amp;st-loc"></script><script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778348262344&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778348262344&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000168c720694d6a4c623d80685%26ts%3D493985%26p%3Dfs%26cid%3D1%26sig%3Dbed740569f6cb24d486713d4517a9f93bca32020c47a91980f9d8bd045c716de%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1&amp;stealth=1&amp;st-loc"></script><script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778348262344&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778346461275&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000ffc47206948773e3cbfa5a9f%26ts%3D493985%26p%3Dfs%26cid%3D1%26sig%3Dcd837fc2a7ebe23e2e70594e2065896a80c7c10ef2101bc3b5d1519cdcc8688e%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1&amp;stealth=1&amp;st-loc"></script><script type="text/javascript" nonce="4f44e2313cbf4fd78bfb4d75510" src="//local.adguard.org?ts=1778346461275&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script></head>
+<body class="auth-locked">
   <main class="container">
     <h1>시험 답안 채점기</h1>
-    <p class="description">관리자가 시험과 정답을 등록하면, 사용자는 30문항 답안을 입력해 채점하고 결과를 저장할 수 있습니다.</p>
+    <p class="description">로그인 후 시험 채점, 결과 저장, 전체 기록 확인을 사용할 수 있습니다. 시험 추가와 수정은 관리자만 가능합니다.</p>
 
     <section id="firebaseNotice" class="notice hidden">
       Firebase 설정값을 아직 넣지 않았습니다. 코드의 firebaseConfig 부분과 ADMIN_UID를 본인 프로젝트 값으로 바꿔야 온라인 저장 기능이 작동합니다.
@@ -249,9 +255,9 @@
     <section id="result" class="result"></section>
 
     <section class="history">
-      <h2>내 시험 결과</h2>
-      <p class="small-text">기본적으로 회차와 점수만 보입니다. 항목을 클릭하면 틀린 번호와 정답을 볼 수 있습니다.</p>
-      <button id="loadMyResultsButton" class="secondary-button">내 결과 불러오기</button>
+      <h2>전체 시험 결과</h2>
+      <p class="small-text">로그인한 사용자는 저장된 전체 채점 기록을 볼 수 있습니다. 항목을 클릭하면 틀린 번호와 정답을 볼 수 있습니다.</p>
+      <button id="loadMyResultsButton" class="secondary-button">전체 결과 불러오기</button>
       <div id="myResults"></div>
     </section>
 
@@ -265,19 +271,35 @@
     </section>
 
     <section class="admin-box">
-      <h2>관리자</h2>
-      <p class="small-text">관리자는 시험을 추가하고, 각 시험의 실제 정답 30개를 등록할 수 있습니다.</p>
+      <h2>로그인</h2>
+      <p class="small-text">계정이 있어야 사이트를 사용할 수 있습니다. 새 계정은 관리자만 추가할 수 있습니다.</p>
 
       <div id="loginArea">
-        <input id="adminEmail" class="admin-input" type="email" placeholder="관리자 이메일" />
+        <input id="adminEmail" class="admin-input" type="email" placeholder="이메일" />
         <input id="adminPassword" class="admin-input" type="password" placeholder="비밀번호" />
-        <button id="loginButton">관리자 로그인</button>
+        <button id="loginButton">로그인</button>
+      </div>
+
+      <div id="userArea" class="hidden">
+        <p><strong id="userStatus"></strong></p>
+        <h3 style="margin-top: 28px;">전체 채점 기록</h3>
+        <p class="small-text">일반 사용자는 기록을 읽을 수만 있고, 관리자는 답안 수정과 기록 삭제가 가능합니다.</p>
+        <button id="loadRecordsButton" class="secondary-button">전체 기록 불러오기</button>
+        <button id="logoutButton" class="secondary-button">로그아웃</button>
+        <div id="adminRecords" class="history"></div>
       </div>
 
       <div id="adminArea" class="hidden">
-        <p><strong id="adminStatus"></strong></p>
+        <h3>관리자 기능</h3>
+        <p class="small-text">아래 기능은 관리자 계정에서만 보입니다.</p>
 
-        <h3>새 시험 추가</h3>
+        <h3>사용자 계정 추가</h3>
+        <p class="small-text">관리자만 새 사용자 계정을 만들 수 있습니다. 생성 후 관리자는 그대로 로그인 상태가 유지됩니다.</p>
+        <input id="newUserEmail" class="admin-input" type="email" placeholder="새 사용자 이메일" />
+        <input id="newUserPassword" class="admin-input" type="password" placeholder="임시 비밀번호, 6자 이상" />
+        <button id="createUserButton" class="secondary-button">사용자 계정 만들기</button>
+
+        <h3 style="margin-top: 28px;">새 시험 추가</h3>
         <input id="newExamTitle" class="admin-input" type="text" placeholder="예: 1회차" />
         <div id="adminAnswerGrid" class="answer-grid"></div>
 
@@ -289,20 +311,16 @@
         <h3 style="margin-top: 28px;">등록된 시험</h3>
         <button id="loadExamsButton" class="secondary-button">시험 목록 새로고침</button>
         <div id="adminExams" class="history"></div>
-
-        <h3 style="margin-top: 28px;">전체 채점 기록</h3>
-        <button id="loadRecordsButton" class="secondary-button">전체 기록 불러오기</button>
-        <button id="logoutButton" class="secondary-button">로그아웃</button>
-        <div id="adminRecords" class="history"></div>
       </div>
     </section>
   </main>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import { initializeApp, deleteApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
     import {
       getAuth,
       signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
       onAuthStateChanged,
       signOut
     } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
@@ -379,12 +397,15 @@
     const examSelect = document.getElementById("examSelect");
     const examSummary = document.getElementById("examSummary");
     const loginArea = document.getElementById("loginArea");
+    const userArea = document.getElementById("userArea");
     const adminArea = document.getElementById("adminArea");
-    const adminStatus = document.getElementById("adminStatus");
+    const userStatus = document.getElementById("userStatus");
     const adminRecords = document.getElementById("adminRecords");
     const adminExams = document.getElementById("adminExams");
     const adminAnswerGrid = document.getElementById("adminAnswerGrid");
     const newGradeCutGrid = document.getElementById("newGradeCutGrid");
+    const newUserEmail = document.getElementById("newUserEmail");
+    const newUserPassword = document.getElementById("newUserPassword");
     const myResults = document.getElementById("myResults");
     const statsArea = document.getElementById("statsArea");
     const trendStatsArea = document.getElementById("trendStatsArea");
@@ -404,15 +425,34 @@
       firebaseReady = true;
 
       onAuthStateChanged(auth, async (user) => {
-        if (user && user.uid === ADMIN_UID) {
+        if (user) {
+          const isAdmin = user.uid === ADMIN_UID;
+          document.body.classList.remove("auth-locked");
           loginArea.classList.add("hidden");
-          adminArea.classList.remove("hidden");
-          adminStatus.textContent = `${user.email} 계정으로 로그인 중`;
-          await loadExamsForAdmin();
+          userArea.classList.remove("hidden");
+          adminArea.classList.toggle("hidden", !isAdmin);
+          userStatus.textContent = `${user.email} 계정으로 로그인 중${isAdmin ? " - 관리자" : " - 일반 사용자"}`;
+          await loadExams();
+          await loadMyResults();
+          if (isAdmin) {
+            await loadExamsForAdmin();
+          } else {
+            adminExams.innerHTML = "";
+          }
         } else {
+          document.body.classList.add("auth-locked");
           loginArea.classList.remove("hidden");
+          userArea.classList.add("hidden");
           adminArea.classList.add("hidden");
           adminRecords.innerHTML = "";
+          adminExams.innerHTML = "";
+          statsArea.innerHTML = "";
+          trendStatsArea.innerHTML = "";
+          cachedResults = [];
+          exams = [];
+          selectedExam = null;
+          renderMyResults();
+          renderExamSelect();
         }
       });
     }
@@ -815,9 +855,16 @@
         return;
       }
 
+      if (!auth.currentUser) {
+        alert("로그인해야 채점 결과를 온라인에 저장할 수 있습니다.");
+        return;
+      }
+
       try {
         await addDoc(collection(db, "examRecords"), {
           ...resultData,
+          userUid: auth.currentUser.uid,
+          userEmail: auth.currentUser.email || "",
           createdAt: serverTimestamp()
         });
         alert("채점 결과가 온라인에 저장되었습니다.");
@@ -871,22 +918,73 @@
 
     async function loginAdmin() {
       if (!firebaseReady) {
-        alert("먼저 Firebase 설정값과 관리자 UID를 코드에 넣어야 합니다.");
+        alert("먼저 Firebase 설정값과 ADMIN_UID를 코드에 넣어야 합니다.");
         return;
       }
 
       const email = document.getElementById("adminEmail").value.trim();
       const password = document.getElementById("adminPassword").value;
 
+      if (!email || !password) {
+        alert("이메일과 비밀번호를 입력하세요.");
+        return;
+      }
+
       try {
-        const credential = await signInWithEmailAndPassword(auth, email, password);
-        if (credential.user.uid !== ADMIN_UID) {
-          await signOut(auth);
-          alert("관리자 계정이 아닙니다.");
-        }
+        await signInWithEmailAndPassword(auth, email, password);
       } catch (error) {
         console.error(error);
         alert("로그인 실패: 이메일 또는 비밀번호를 확인하세요.");
+      }
+    }
+
+    async function createUserByAdmin() {
+      if (!firebaseReady || !auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
+        alert("관리자만 사용자 계정을 만들 수 있습니다.");
+        return;
+      }
+
+      const email = newUserEmail.value.trim();
+      const password = newUserPassword.value;
+
+      if (!email || !password) {
+        alert("새 사용자 이메일과 임시 비밀번호를 입력하세요.");
+        return;
+      }
+
+      if (password.length < 6) {
+        alert("Firebase 비밀번호는 6자 이상이어야 합니다.");
+        return;
+      }
+
+      let secondaryApp = null;
+      try {
+        secondaryApp = initializeApp(firebaseConfig, `user-create-${Date.now()}`);
+        const secondaryAuth = getAuth(secondaryApp);
+        await createUserWithEmailAndPassword(secondaryAuth, email, password);
+        await signOut(secondaryAuth);
+        alert(`사용자 계정을 만들었습니다: ${email}`);
+        newUserEmail.value = "";
+        newUserPassword.value = "";
+      } catch (error) {
+        console.error(error);
+        if (error.code === "auth/email-already-in-use") {
+          alert("이미 가입된 이메일입니다.");
+        } else if (error.code === "auth/invalid-email") {
+          alert("이메일 형식이 올바르지 않습니다.");
+        } else if (error.code === "auth/weak-password") {
+          alert("비밀번호가 너무 약합니다. 6자 이상으로 입력하세요.");
+        } else {
+          alert("사용자 계정 생성 실패. Firebase Authentication 설정을 확인하세요.");
+        }
+      } finally {
+        if (secondaryApp) {
+          try {
+            await deleteApp(secondaryApp);
+          } catch (deleteError) {
+            console.warn(deleteError);
+          }
+        }
       }
     }
 
@@ -1013,6 +1111,10 @@
 
     async function loadMyResults() {
       if (!firebaseReady) return;
+      if (!auth.currentUser) {
+        myResults.innerHTML = `<p class="small-text">로그인하면 전체 시험 결과를 볼 수 있습니다.</p>`;
+        return;
+      }
       myResults.innerHTML = "불러오는 중...";
 
       try {
@@ -1022,7 +1124,7 @@
         renderMyResults();
       } catch (error) {
         console.error(error);
-        myResults.innerHTML = `<p class="wrong">결과를 불러오지 못했습니다. Firestore 보안 규칙을 확인하세요.</p>`;
+        myResults.innerHTML = `<p class="wrong">결과를 불러오지 못했습니다. Firestore 보안 규칙에서 로그인 사용자 읽기를 허용했는지 확인하세요.</p>`;
       }
     }
 
@@ -1319,11 +1421,12 @@
     }
 
     async function loadRecords() {
-      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
-        alert("관리자만 기록을 볼 수 있습니다.");
+      if (!auth.currentUser) {
+        alert("로그인해야 전체 기록을 볼 수 있습니다.");
         return;
       }
 
+      const isAdmin = auth.currentUser.uid === ADMIN_UID;
       adminRecords.innerHTML = "불러오는 중...";
 
       try {
@@ -1347,18 +1450,27 @@
 
           const answerInputs = Array.from({ length: QUESTION_COUNT }, (_, index) => {
             const number = index + 1;
-            return `
-              <div class="answer-cell">
-                <label>${number}번 답안</label>
-                <input type="text" id="record-${id}-answer-${number}" value="${escapeHtml(submittedAnswers[number] ?? "")}" autocomplete="off" />
-              </div>
-            `;
+            const value = escapeHtml(submittedAnswers[number] ?? "");
+            return isAdmin
+              ? `
+                <div class="answer-cell">
+                  <label>${number}번 답안</label>
+                  <input type="text" id="record-${id}-answer-${number}" value="${value}" autocomplete="off" />
+                </div>
+              `
+              : `
+                <div class="answer-cell">
+                  <label>${number}번 답안</label>
+                  <div>${value || "미입력"}</div>
+                </div>
+              `;
           }).join("");
 
           const div = document.createElement("div");
           div.className = "history-item";
           div.innerHTML = `
             <h3>${escapeHtml(item.examTitle || "이름 없는 시험")}</h3>
+            응시자: ${escapeHtml(item.userEmail || "기록 없음")}<br />
             날짜: ${escapeHtml(item.createdAtText || "날짜 없음")}<br />
             현재 점수: ${formatScore(item.earnedScore ?? 0)}점 / ${item.totalScore ?? 100}점<br />
             현재 등급: ${escapeHtml(item.gradeLabel || "등급컷 없음")}<br />
@@ -1367,18 +1479,25 @@
             맞힌 문항: ${item.correctCount ?? 0}개<br />
             틀린 문항: ${wrongNumbers}<br />
             <div class="answer-grid" style="margin-top:12px;">${answerInputs}</div>
-            <button class="small-button" data-action="update" data-id="${id}">답안 수정 후 재채점</button>
-            <button class="small-button danger-button" data-action="delete" data-id="${id}">기록 삭제</button>
+            ${isAdmin ? `
+              <button class="small-button" data-action="update" data-id="${id}">답안 수정 후 재채점</button>
+              <button class="small-button danger-button" data-action="delete" data-id="${id}">기록 삭제</button>
+            ` : `<p class="small-text">일반 사용자는 기록을 읽을 수만 있습니다.</p>`}
           `;
           adminRecords.appendChild(div);
         });
       } catch (error) {
         console.error(error);
-        adminRecords.innerHTML = `<p class="wrong">기록을 불러오지 못했습니다. Firestore 보안 규칙과 관리자 UID를 확인하세요.</p>`;
+        adminRecords.innerHTML = `<p class="wrong">기록을 불러오지 못했습니다. Firestore 보안 규칙에서 로그인 사용자 읽기를 허용했는지 확인하세요.</p>`;
       }
     }
 
     async function updateRecord(id) {
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
+        alert("관리자만 기록을 수정할 수 있습니다.");
+        return;
+      }
+
       try {
         const q = query(collection(db, "examRecords"), orderBy("createdAt", "desc"));
         const snapshot = await getDocs(q);
@@ -1473,6 +1592,11 @@
     }
 
     async function deleteRecord(id) {
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
+        alert("관리자만 기록을 삭제할 수 있습니다.");
+        return;
+      }
+
       const confirmed = confirm("이 기록을 삭제할까요?");
       if (!confirmed) return;
 
@@ -1489,13 +1613,17 @@
 
     document.getElementById("gradeButton").addEventListener("click", gradeExam);
     document.getElementById("loginButton").addEventListener("click", loginAdmin);
+    document.getElementById("createUserButton").addEventListener("click", createUserByAdmin);
     document.getElementById("saveExamButton").addEventListener("click", saveExam);
     document.getElementById("loadExamsButton").addEventListener("click", loadExamsForAdmin);
     document.getElementById("loadRecordsButton").addEventListener("click", loadRecords);
     document.getElementById("loadMyResultsButton").addEventListener("click", loadMyResults);
     document.getElementById("loadStatsButton").addEventListener("click", loadStats);
     document.getElementById("toggleTrendStatsButton").addEventListener("click", toggleTrendStats);
-    document.getElementById("logoutButton").addEventListener("click", () => signOut(auth));
+    document.getElementById("logoutButton").addEventListener("click", () => {
+      document.body.classList.add("auth-locked");
+      signOut(auth);
+    });
     examSelect.addEventListener("change", updateExamSummary);
 
     myResults.addEventListener("click", (event) => {
@@ -1563,7 +1691,6 @@
     renderNewGradeCutInputs();
     setupAutoMoveInputs();
     initializeFirebaseIfConfigured();
-    loadExams();
   </script>
 </body>
 </html>
